@@ -14,44 +14,43 @@ import com.example.sqlite.DatabaseHelper
 class MainActivity : AppCompatActivity() {
 
     private val TAG = "MainActivity"
-    // Inicialización tardía de la clase que gestiona la BD
+    // Inicialización de la clase que gestiona la BD
     private lateinit var dbHelper: DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Si no tienes un layout, puedes comentar esta línea:
-        // setContentView(R.layout.activity_main)
 
-        // 1. Inicializa el ayudante de la BD
+        // Inicializa el ayudante de la BD
         dbHelper = DatabaseHelper(this)
+
 
         // --- Ejecutar las operaciones de prueba ---
 
         Log.d(TAG, "--- INICIO DE PRUEBAS SQLite ---")
 
-        // 2. Insertar un nuevo usuario
+        // Insertar un nuevo usuario
         val newRowId1 = insertData("Alice", 25)
         Log.i(TAG, "Resultado Insertar Alice (ID): $newRowId1")
 
-        // 3. Insertar otro usuario
+        // Insertar otro usuario
         val newRowId2 = insertData("Bob", 30)
         Log.i(TAG, "Resultado Insertar Bob (ID): $newRowId2")
 
-        // 4. Seleccionar y mostrar todos los datos
+        // Seleccionar y mostrar todos los datos
         readData()
 
-        // 5. Actualizar un usuario (Alice: 25 -> 26)
+        // Actualizar un usuario
         val rowsUpdated = updateData(newRowId1, 26)
         Log.i(TAG, "Filas actualizadas para Alice: $rowsUpdated")
 
-        // 6. Seleccionar y mostrar todos los datos de nuevo
+        // Seleccionar y mostrar todos los datos de nuevo
         readData()
 
-        // 7. Eliminar un usuario (Bob)
+        // Eliminar un usuario
         val rowsDeleted = deleteData(newRowId2)
         Log.i(TAG, "Filas eliminadas (Bob): $rowsDeleted")
 
-        // 8. Seleccionar y mostrar el resultado final
+        // Seleccionar y mostrar el resultado final
         readData()
 
         Log.d(TAG, "--- FIN DE PRUEBAS SQLite ---")
@@ -63,7 +62,7 @@ class MainActivity : AppCompatActivity() {
      * @return El ID de la nueva fila.
      */
     private fun insertData(name: String, age: Int): Long {
-        // use{} asegura que la BD se cierra automáticamente después de la operación.
+        // use{} asegura que la BD se cierra automáticamente después de la operación
         return dbHelper.writableDatabase.use { db ->
             val values = ContentValues().apply {
                 put(UserEntry.COLUMN_NAME, name)
@@ -127,8 +126,8 @@ class MainActivity : AppCompatActivity() {
 
             // Realiza la consulta
             val cursor = db.query(
-                UserEntry.TABLE_NAME,   // La tabla
-                projection,             // Columnas
+                UserEntry.TABLE_NAME,
+                projection,
                 null, null, null, null, null // Sin filtros, grupos ni orden
             )
 
@@ -142,7 +141,6 @@ class MainActivity : AppCompatActivity() {
                     val name = c.getString(c.getColumnIndexOrThrow(UserEntry.COLUMN_NAME))
                     val age = c.getInt(c.getColumnIndexOrThrow(UserEntry.COLUMN_AGE))
 
-                    // Muestra en Logcat
                     Log.i(TAG, "ID: $itemId, Nombre: $name, Edad: $age")
                 }
             }

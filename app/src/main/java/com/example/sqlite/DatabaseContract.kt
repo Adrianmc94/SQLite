@@ -1,4 +1,3 @@
-// Archivo: DatabaseContract.kt
 package com.example.sqlite
 
 object DatabaseContract {

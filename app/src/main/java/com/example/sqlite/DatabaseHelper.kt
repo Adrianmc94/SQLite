@@ -1,4 +1,3 @@
-// Archivo: DatabaseHelper.kt
 package com.example.sqlite
 
 import android.content.Context
